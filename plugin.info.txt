@@ -1,0 +1,8 @@
+base    graphviz2
+author  Annhe
+email   me@annhe.net
+date    2017-12-15
+name    Another Graphviz Plugin
+desc    Create graph images from Graphviz dot language
+url     https://github.com/annProg/dokuwiki-graphviz
+
