@@ -12,8 +12,6 @@ if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
-	private $input = "";
-
     /**
      * What about paragraphs?
      */
@@ -65,10 +63,8 @@ class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
         if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp)\b/i',$conf,$match)){
             $return['layout'] = strtolower($match[1]);
         }
-
-        $this->input = join("\n",$lines);
-        $return['md5'] = md5($this->input); // we only pass a hash around
-
+		
+		$return['input'] = urlencode(join("\n", $lines));
         // store input for later use
         return $return;
     }
@@ -95,7 +91,7 @@ class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
      */
     function _remote($data){
 		$api = $this->getConf('api');	
-		$img = $api . "?cht=" . 'gv:' . $data['layout'] . "&chl=" . urlencode($this->input) . "&chof=" . $data['chof'];
+		$img = $api . "?cht=" . 'gv:' . $data['layout'] . "&chl=" . $data['input'] . "&chof=" . $data['chof'];
         return $img;
     }
 }
