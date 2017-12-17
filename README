@@ -1,6 +1,8 @@
-# Anothergraphviz Plugin for DokuWiki
+# Plot Plugin for DokuWiki
 
-If you install this plugin manually, make sure it is installed in lib/plugins/graphviz2/ - if the folder is called different it
+If you install this plugin manually, make sure it is installed in lib/plugins/plot/ - if the folder is called different it
 will not work!
 
 ----
+
+This plugin depend on a chart api : https://github.com/annProg/chart

@@ -1,8 +1,8 @@
-base    graphviz2
+base    plot
 author  Annhe
 email   me@annhe.net
 date    2017-12-15
-name    Another Graphviz Plugin
-desc    Create graph images from Graphviz dot language
-url     https://github.com/annProg/dokuwiki-graphviz
+name    Plot Plugin
+desc    Text to plot, support graphviz, ditaa, markdown mindmap
+url     https://github.com/annProg/dokuwiki-plot
 

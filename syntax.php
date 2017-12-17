@@ -1,6 +1,6 @@
 <?php
 /**
- * graphviz-Plugin: Parses graphviz-blocks
+ * plot-Plugin: Parses plot-blocks
  *
  * @license    MIT
  * @author     Ann He <me@annhe.net>
@@ -11,7 +11,7 @@ if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../')
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
 
-class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
     /**
      * What about paragraphs?
      */
@@ -37,7 +37,7 @@ class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
      * Connect pattern to lexer
      */
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('<graphviz.*?>\n.*?\n</graphviz>',$mode,'plugin_graphviz2');
+        $this->Lexer->addSpecialPattern('<plot.*?>\n.*?\n</plot>',$mode,'plugin_plot');
     }
 
     /**
@@ -60,7 +60,7 @@ class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
 
         // match config options
         if(preg_match('/\b(left|center|right)\b/i',$conf,$match)) $return['align'] = $match[1];
-        if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp|markdown:\w+)\b/i',$conf,$match)){
+        if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp|markdown:\w+|ditaa)\b/i',$conf,$match)){
             $return['layout'] = strtolower($match[1]);
         }
 		
@@ -87,11 +87,12 @@ class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
     }
 
     /**
-     * Render the output remotely at graphviz API
+     * Render the output remotely at plot API
      */
     function _remote($data){
 		$api = $this->getConf('api');
-		if(explode(":", $data['layout'])[0] == "markdown") {
+		$notGv = array("markdown", "ditaa");
+		if(in_array(explode(":", $data['layout'])[0], $notGv)) {
 			$engine = $data['layout'];
 		} else {
 			$engine = "gv:" . $data['layout'];
