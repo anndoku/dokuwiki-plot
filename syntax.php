@@ -60,7 +60,7 @@ class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
 
         // match config options
         if(preg_match('/\b(left|center|right)\b/i',$conf,$match)) $return['align'] = $match[1];
-        if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp)\b/i',$conf,$match)){
+        if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp|markdown:\w+)\b/i',$conf,$match)){
             $return['layout'] = strtolower($match[1]);
         }
 		
@@ -90,8 +90,13 @@ class syntax_plugin_graphviz2 extends DokuWiki_Syntax_Plugin {
      * Render the output remotely at graphviz API
      */
     function _remote($data){
-		$api = $this->getConf('api');	
-		$img = $api . "?cht=" . 'gv:' . $data['layout'] . "&chl=" . $data['input'] . "&chof=" . $data['chof'];
+		$api = $this->getConf('api');
+		if(explode(":", $data['layout'])[0] == "markdown") {
+			$engine = $data['layout'];
+		} else {
+			$engine = "gv:" . $data['layout'];
+		}
+		$img = $api . "?cht=" . $engine . "&chl=" . $data['input'] . "&chof=" . $data['chof'];
         return $img;
     }
 }
