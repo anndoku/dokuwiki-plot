@@ -60,7 +60,7 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
 
         // match config options
         if(preg_match('/\b(left|center|right)\b/i',$conf,$match)) $return['align'] = $match[1];
-        if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp|markdown:\w+|ditaa)\b/i',$conf,$match)){
+        if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp|markdown|markdown:\w+|ditaa)\b/i',$conf,$match)){
             $return['layout'] = strtolower($match[1]);
         }
 		
