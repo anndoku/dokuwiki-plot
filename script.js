@@ -46,6 +46,6 @@
 	}
 
 	function onError(id) {
-		$(id).src = 'lib/plugins/plot/images/error.jpg';
+		$(id).src = $(id).src.replace(/loading.gif/, 'error.jpg');
 	}
 })()

@@ -81,7 +81,8 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
 			'<input type="hidden" name="cht" value="' . $cht . '" id="cht_' . $id . '">' .
 			'<input type="hidden" name="chof" value="' . $data['chof'] . '" id="chof_' . $id . '">' .
 			'<textarea name="chl" id="chl_' . $id . '">' . $data['input'] . '</textarea></form></div>' .
-			'<img id="img_' . $id . '" src="lib/plugins/plot/images/loading.gif" alt="mindmap" title="mindmap"';
+			'<img id="img_' . $id . '" src="' . rtrim($this->getConf('baseurl'), '/') . 
+			'/lib/plugins/plot/images/loading.gif" alt="mindmap" title="mindmap"';
 
         if($format == 'xhtml'){
 			$R->doc .= $tpl . ' class="media' . $data['align'] . '"';
