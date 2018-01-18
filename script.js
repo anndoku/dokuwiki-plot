@@ -11,9 +11,9 @@
 
 		request.onreadystatechange = function() {recall(request, formid);};
 
-		var sendData = new FormData($(formid));
+		var sendData = new FormData(jQuery(formid));
 
-		request.open('POST', $(formid).action, true);
+		request.open('POST', jQuery(formid).action, true);
 		request.send(sendData);
 	}
 		
@@ -34,7 +34,7 @@
 			if(request.status == 200) {
 				try {
 					var res = JSON.parse(request.responseText);
-					$(imgid).src = res['imgpath'];
+					jQuery(imgid).src = res['imgpath'];
 					return true;
 				} catch(e) {
 					onError(imgid);
@@ -46,6 +46,6 @@
 	}
 
 	function onError(id) {
-		$(id).src = $(id).src.replace(/loading.gif/, 'error.jpg');
+		jQuery(id).src = jQuery(id).src.replace(/loading.gif/, 'error.jpg');
 	}
 })();
