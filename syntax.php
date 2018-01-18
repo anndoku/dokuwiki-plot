@@ -49,7 +49,7 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
         // prepare default data
         $return = array(
                         'layout'    => 'dot',
-                        'align'     => '',
+                        'align'     => 'center',
 						'chof' => 'png',
                        );
 
