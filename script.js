@@ -1,7 +1,7 @@
 (function() {
 	function zxsq_ajaxpost(formid, recall) {
 		var request;
-		if(window.XMLHttpRequest) {
+		if (window.XMLHttpRequest) {
 			request = new XMLHttpRequest();
 		} else if ( window.ActiveXObject) {
 			request = new ActiveXObject("Microsoft.XMLHTTP");
@@ -9,7 +9,7 @@
 			return;
 		}
 
-		request.onreadystatechange = function() {recall(request, formid);}
+		request.onreadystatechange = function() {recall(request, formid);};
 
 		var sendData = new FormData($(formid));
 
