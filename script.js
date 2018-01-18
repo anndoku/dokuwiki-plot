@@ -48,4 +48,4 @@
 	function onError(id) {
 		$(id).src = $(id).src.replace(/loading.gif/, 'error.jpg');
 	}
-})()
+})();
