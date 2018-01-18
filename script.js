@@ -22,7 +22,6 @@
 		for(var i=0;i<zxsq_mindmap_forms.length;i++) {
 			var cur_form = zxsq_mindmap_forms[i];
 			var formid = cur_form.id;
-		console.log(jQuery('#' + formid)[0]);
 			var textarea = cur_form.querySelector('textarea');
 			var oldcode = textarea.value;
 			textarea.defaultValue = oldcode.replace(/<br \/>\n/g, '\n');
