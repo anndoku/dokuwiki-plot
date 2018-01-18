@@ -11,22 +11,25 @@
 
 		request.onreadystatechange = function() {recall(request, formid);};
 
-		var sendData = new FormData(jQuery(formid));
+		var sendData = new FormData(jQuery('#' + formid)[0]);
 
-		request.open('POST', jQuery(formid).action, true);
+		request.open('POST', jQuery('#' + formid)[0].action, true);
 		request.send(sendData);
 	}
 		
-	var zxsq_mindmap_forms = document.querySelectorAll('.zxsq_mindmap_form form');
-	for(var i=0;i<zxsq_mindmap_forms.length;i++) {
-		var cur_form = zxsq_mindmap_forms[i];
-		var formid = cur_form.id;
-		var textarea = cur_form.querySelector('textarea');
-		var oldcode = textarea.value;
-		textarea.defaultValue = oldcode.replace(/<br \/>\n/g, '\n');
+	jQuery(document).ready(function() {
+		var zxsq_mindmap_forms = document.querySelectorAll('.zxsq_mindmap_form form');
+		for(var i=0;i<zxsq_mindmap_forms.length;i++) {
+			var cur_form = zxsq_mindmap_forms[i];
+			var formid = cur_form.id;
+		console.log(jQuery('#' + formid)[0]);
+			var textarea = cur_form.querySelector('textarea');
+			var oldcode = textarea.value;
+			textarea.defaultValue = oldcode.replace(/<br \/>\n/g, '\n');
 
-		zxsq_ajaxpost(formid, showMindMap);
-	}
+			zxsq_ajaxpost(formid, showMindMap);
+		}
+	});
 
 	function showMindMap(request, formid) {
 		var imgid = 'img_' + formid;
@@ -34,7 +37,7 @@
 			if(request.status == 200) {
 				try {
 					var res = JSON.parse(request.responseText);
-					jQuery(imgid).src = res['imgpath'];
+					jQuery('#' + imgid)[0].src = res['imgpath'];
 					return true;
 				} catch(e) {
 					onError(imgid);
@@ -46,6 +49,6 @@
 	}
 
 	function onError(id) {
-		jQuery(id).src = jQuery(id).src.replace(/loading.gif/, 'error.jpg');
+		jQuery('#' + id)[0].src = jQuery('#' + id)[0].src.replace(/loading.gif/, 'error.jpg');
 	}
 })();
