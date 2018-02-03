@@ -69,6 +69,7 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
         
         if(preg_match('/\bwidth=([0-9]+)\b/i', $conf,$match)) $return['width'] = $match[1];
         if(preg_match('/\bheight=([0-9]+)\b/i', $conf,$match)) $return['height'] = $match[1];
+        if(preg_match('/\boutput=([a-z]+)\b/i', $conf,$match)) $return['chof'] = $match[1];
 
         if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp|markdown:\w+|ditaa|markdown)\b/i',$conf,$match)){
             $return['layout'] = strtolower($match[1]);
