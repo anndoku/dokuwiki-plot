@@ -71,8 +71,12 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
         if(preg_match('/\bheight=([0-9]+)\b/i', $conf,$match)) $return['height'] = $match[1];
         if(preg_match('/\boutput=([a-z]+)\b/i', $conf,$match)) $return['chof'] = $match[1];
 
-        if(preg_match('/\b(dot|neato|twopi|circo|fdp|sfdp|markdown:\w+|ditaa|markdown)\b/i',$conf,$match)){
-            $return['layout'] = strtolower($match[1]);
+        if(preg_match('/\bplot\s(\w+:?\w+)\b/i',$conf,$match)){
+			$isGv = array("dot","neato","twopi","circo","fdp","sfdp");
+			$return['layout'] = strtolower($match[1]);
+			if(in_array($return['layout'], $isGv)) {
+				$return['layout'] = "gv:" . $return['layout'];
+			}
         }
         
         $return['input'] = urlencode(join("\n", $lines));
@@ -85,7 +89,7 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
      */
     function render($format, Doku_Renderer $R, $data) {
         $id = $this->getGUID();
-        $cht = $this->_cht($data);
+        $cht = $data['layout'];
         $tpl='<div style="display:none" class="zxsq_mindmap_form">' .
             '<form accept-charset="utf-8" name="' . $id . '" id="' . $id . 
             '" method="post" action="' . $this->getConf('api') . '" enctype="application/x-www-form-urlencoded">'.
@@ -118,18 +122,4 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
             .substr($charid,20,12); 
         return $uuid;  
     } 
-    
-    /**
-     * Render the output remotely at plot API
-     */
-
-    function _cht($data) {
-        $notGv = array("markdown", "ditaa");
-        if(in_array(explode(":", $data['layout'])[0], $notGv)) {
-            $engine = $data['layout'];
-        } else {
-            $engine = "gv:" . $data['layout'];
-        }
-        return $engine;    
-    }
 }
