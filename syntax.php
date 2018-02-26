@@ -79,10 +79,17 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
 			}
         }
         
-        $return['input'] = urlencode(join("\n", $lines));
+        $return['org_input'] = join("\n", $lines);
+        $return['input'] = urlencode($return['org_input']);
         // store input for later use
         return $return;
     }
+
+	function cal_file_name($data) {
+		$path = substr($this->getConf('api'),0,-7) . "cache/images/";
+		$flag = str_replace(":", "_", $data['layout']);
+		return $path . md5($data['org_input']) . $flag . "." .$data['chof'];
+	}
 
     /**
      * Create output
@@ -96,8 +103,8 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
             '<input type="hidden" name="cht" value="' . $cht . '" id="cht_' . $id . '">' .
             '<input type="hidden" name="chof" value="' . $data['chof'] . '" id="chof_' . $id . '">' .
             '<textarea name="chl" id="chl_' . $id . '">' . $data['input'] . '</textarea></form></div>' .
-            '<img id="img_' . $id . '" src="' . DOKU_URL . 
-            'lib/plugins/plot/images/loading.gif" alt="mindmap" title="mindmap"';
+            '<img id="img_' . $id . '" src="' . $this->cal_file_name($data) . 
+            '" alt="mindmap" title="mindmap"';
 
         if($format == 'xhtml'){
             $R->doc .= $tpl . ' class="media' . $data['align'] . '"';
