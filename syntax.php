@@ -72,11 +72,11 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
         if(preg_match('/\boutput=([a-z]+)\b/i', $conf,$match)) $return['chof'] = $match[1];
 
         if(preg_match('/\bplot\s(\w+:?\w+)\b/i',$conf,$match)){
-			$isGv = array("dot","neato","twopi","circo","fdp","sfdp");
-			$return['layout'] = strtolower($match[1]);
-			if(in_array($return['layout'], $isGv)) {
-				$return['layout'] = "gv:" . $return['layout'];
-			}
+            $isGv = array("dot","neato","twopi","circo","fdp","sfdp");
+            $return['layout'] = strtolower($match[1]);
+            if(in_array($return['layout'], $isGv)) {
+                $return['layout'] = "gv:" . $return['layout'];
+            }
         }
         
         $return['org_input'] = join("\n", $lines);
@@ -85,11 +85,11 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
         return $return;
     }
 
-	function cal_file_name($data) {
-		$path = substr($this->getConf('api'),0,-7) . "cache/images/";
-		$flag = str_replace(":", "_", $data['layout']);
-		return $path . md5($data['org_input']) . $flag . "." .$data['chof'];
-	}
+    function cal_file_name($data) {
+        $path = substr($this->getConf('api'),0,-7) . "cache/images/";
+        $flag = str_replace(":", "_", $data['layout']);
+        return $path . md5($data['org_input']) . $flag . "." .$data['chof'];
+    }
 
     /**
      * Create output
@@ -97,14 +97,23 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
     function render($format, Doku_Renderer $R, $data) {
         $id = $this->getGUID();
         $cht = $data['layout'];
+        $center_start = "";
+        $center_end = "";
+
+        if($data['align'] == "center") {
+            $center_start = '<div align="center" style="text-align: center">';
+            $center_end = '</div>';
+        }
+
         $tpl='<div style="display:none" class="zxsq_mindmap_form">' .
             '<form accept-charset="utf-8" name="' . $id . '" id="' . $id . 
             '" method="post" action="' . $this->getConf('api') . '" enctype="application/x-www-form-urlencoded">'.
             '<input type="hidden" name="cht" value="' . $cht . '" id="cht_' . $id . '">' .
             '<input type="hidden" name="chof" value="' . $data['chof'] . '" id="chof_' . $id . '">' .
             '<textarea name="chl" id="chl_' . $id . '">' . $data['input'] . '</textarea></form></div>' .
+            $center_start .
             '<img id="img_' . $id . '" src="' . $this->cal_file_name($data) . 
-            '" alt="mindmap" title="mindmap"';
+            '" alt="" title="plot"';
 
         if($format == 'xhtml'){
             $R->doc .= $tpl . ' class="media' . $data['align'] . '"';
@@ -113,6 +122,7 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
             if($data['align'] == 'right') $R->doc .= ' align="right"';
             if($data['align'] == 'left')  $R->doc .= ' align="left"';
             $R->doc .= '/>';
+            $R->doc .= $center_end;
             return true;
         }
         return false;
