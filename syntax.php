@@ -87,7 +87,7 @@ class syntax_plugin_plot extends DokuWiki_Syntax_Plugin {
     function cal_file_name($data) {
         $path = substr($this->getConf('api'),0,-7) . "cache/images/";
         $flag = str_replace(":", "_", $data['layout']);
-        return $path . md5($data['input']) . $flag . "." .$data['chof'];
+        return $path . md5(str_replace("\n", "\r\n", $data['input'])) . $flag . "." .$data['chof'];
     }
 
     /**
