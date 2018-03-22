@@ -48,6 +48,6 @@
 	}
 
 	function onError(id) {
-		jQuery('#' + id)[0].src = jQuery('#' + id)[0].src.replace(/loading.gif/, 'error.jpg');
+		jQuery('#' + id)[0].src = "lib/plugins/plot/images/error.jpg";
 	}
 })();
