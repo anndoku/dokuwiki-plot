@@ -1,3 +1,3 @@
 <?php
 
-$conf['api'] = 'https://api.annhe.net/gv/api.php';
+$conf['api'] = 'https://api.annhe.net/api.php';
